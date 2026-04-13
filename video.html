@@ -1,1 +1,880 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colixo — Livraison rapide pour entreprises en Suisse</title>
+  <meta name="description" content="Colixo simplifie les expéditions des entreprises en Suisse : collecte directe, livraison rapide, service fiable." />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-soft: #121212;
+      --card: rgba(255,255,255,0.06);
+      --text: #ffffff;
+      --muted: #c9c9c9;
+      --line: rgba(255,255,255,0.12);
+      --accent: #ff8a00;
+      --accent-2: #ffb347;
+      --success: #28c76f;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 22px;
+      --max: 1180px;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(255,138,0,0.18), transparent 28%),
+        linear-gradient(180deg, #050505 0%, #0c0c0c 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 30;
+      background: rgba(10,10,10,0.65);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      width: min(94%, var(--max));
+      margin: 0 auto;
+      padding: 14px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      font-size: 1.1rem;
+    }
+
+    .brand-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid;
+      place-items: center;
+      color: #111;
+      font-weight: 900;
+      box-shadow: 0 10px 30px rgba(255,138,0,0.35);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border: none;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      color: #121212;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 14px 38px rgba(255,138,0,0.30);
+    }
+
+    .btn-secondary {
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--line);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: 90px;
+    }
+
+    .hero video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.75) 100%),
+        linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.45) 100%);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: min(92%, var(--max));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 0.9rem;
+      color: #f7f7f7;
+      margin-bottom: 18px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 14px rgba(40,199,111,0.8);
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 5vw, 4.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+      max-width: 12ch;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      color: var(--muted);
+      max-width: 58ch;
+      margin-bottom: 28px;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: #efefef;
+      font-size: 0.95rem;
+    }
+
+    .trust-row span {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .hero-card {
+      background: rgba(10,10,10,0.55);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+
+    .stat small {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    section {
+      padding: 92px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 18px;
+      font-size: clamp(1.9rem, 3vw, 3rem);
+      letter-spacing: -0.03em;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 48px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,138,0,0.25), rgba(255,179,71,0.18));
+      border: 1px solid rgba(255,138,0,0.22);
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+    }
+
+    .feature-item b {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .feature-item span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 16px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #111;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      margin-top: 2px;
+    }
+
+    .cta-band {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box {
+      position: relative;
+      background:
+        radial-gradient(circle at top right, rgba(255,179,71,0.18), transparent 30%),
+        linear-gradient(135deg, rgba(255,138,0,0.13), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 30px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .badge-row span {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--line);
+      color: #fff;
+      font-size: 0.92rem;
+    }
+
+    .form-wrap {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .info-panel,
+    .form-panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .contact-item {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.92rem;
+      margin-bottom: 7px;
+      color: #f1f1f1;
+      font-weight: 600;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      border-radius: 16px;
+      padding: 15px 16px;
+      outline: none;
+      font: inherit;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #9b9b9b;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(255,138,0,0.65);
+      box-shadow: 0 0 0 4px rgba(255,138,0,0.14);
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .mini-proof {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .mini-proof .card {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .mini-proof strong {
+      display: block;
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+
+    footer {
+      padding: 34px 0 48px;
+      color: #9e9e9e;
+      border-top: 1px solid var(--line);
+      margin-top: 22px;
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 1080px) {
+      .hero-content,
+      .form-wrap,
+      .cta-box,
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-3,
+      .mini-proof {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+      }
+
+      .field-row,
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 110px;
+        padding-bottom: 70px;
+      }
+
+      section {
+        padding: 76px 0;
+      }
+
+      .hero-card,
+      .info-panel,
+      .form-panel,
+      .card,
+      .cta-box {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="#top" class="brand">
+        <span class="brand-badge">C</span>
+        <span>Colixo</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#services">Avantages</a>
+        <a href="#process">Fonctionnement</a>
+        <a href="#contact">Devis</a>
+      </nav>
+      <a href="#contact" class="btn btn-primary">Demander un devis</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <video autoplay muted loop playsinline poster="cover-colixo.jpg">
+        <source src="video-colixo.mp4" type="video/mp4" />
+      </video>
+
+      <div class="hero-content">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> Service de livraison pensé pour les entreprises en Suisse</div>
+          <h1>Moins de logistique. Plus de business.</h1>
+          <p>
+            Colixo collecte vos colis directement chez vous et simplifie vos expéditions avec un service rapide,
+            fiable et professionnel. Gagnez du temps et fluidifiez votre organisation.
+          </p>
+          <div class="hero-cta">
+            <a href="#contact" class="btn btn-primary">Recevoir un devis</a>
+            <a href="#services" class="btn btn-secondary">Découvrir le service</a>
+          </div>
+          <div class="trust-row">
+            <span>Collecte directe</span>
+            <span>Livraison rapide</span>
+            <span>Réponse sous 24h</span>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <h2 style="font-size:1.35rem; margin-bottom:8px;">Une solution simple pour vos expéditions</h2>
+          <p style="color:var(--muted); margin-bottom:10px;">
+            Idéal pour les entreprises qui veulent gagner du temps, réduire la charge opérationnelle et offrir un service fluide à leurs clients.
+          </p>
+          <div class="stat-grid">
+            <div class="stat">
+              <strong>Collecte</strong>
+              <small>Prise en charge directe de vos colis</small>
+            </div>
+            <div class="stat">
+              <strong>Rapidité</strong>
+              <small>Organisation claire et traitement efficace</small>
+            </div>
+            <div class="stat">
+              <strong>Simplicité</strong>
+              <small>Un seul contact pour votre logistique</small>
+            </div>
+            <div class="stat">
+              <strong>Fiabilité</strong>
+              <small>Service sérieux et image professionnelle</small>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <h2 class="section-title">Pourquoi choisir Colixo</h2>
+        <p class="section-subtitle">
+          Une landing page qui ne se contente pas d’être belle : elle rassure, explique clairement le service et pousse à la demande de devis.
+        </p>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="card-icon">📦</div>
+            <h3>Collecte directe chez vous</h3>
+            <p>Plus besoin de mobiliser vos équipes pour gérer les dépôts ou les trajets inutiles. Colixo vient récupérer vos colis directement sur votre site.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">⚡</div>
+            <h3>Livraison rapide</h3>
+            <p>Un service pensé pour aller vite, avec une communication claire et une prise en charge professionnelle du premier contact jusqu’à la remise finale.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">🤝</div>
+            <h3>Image sérieuse auprès de vos clients</h3>
+            <p>Vos expéditions participent à votre réputation. Avec un partenaire fiable, vous améliorez l’expérience globale et la confiance autour de votre entreprise.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container split">
+        <div class="card">
+          <h2 style="font-size:2rem; letter-spacing:-0.03em; margin-bottom:10px;">Le problème que Colixo résout</h2>
+          <p style="color:var(--muted);">
+            Gérer les expéditions en interne prend du temps, désorganise les journées et crée souvent des frictions inutiles.
+            Colixo enlève cette charge pour vous permettre de rester concentré sur votre activité.
+          </p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div>⏱️</div>
+              <div>
+                <b>Gain de temps</b>
+                <span>Moins de gestion manuelle, moins d’allers-retours, plus d’efficacité.</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div>📍</div>
+              <div>
+                <b>Organisation plus fluide</b>
+                <span>Une solution claire et simple à intégrer dans le quotidien de votre entreprise.</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div>💼</div>
+              <div>
+                <b>Service orienté business</b>
+                <span>Une approche sérieuse, professionnelle et adaptée aux besoins des entreprises suisses.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="process">
+          <h2 style="font-size:2rem; letter-spacing:-0.03em; margin-bottom:10px;">Comment ça fonctionne</h2>
+          <p style="color:var(--muted); margin-bottom:20px;">
+            Un fonctionnement volontairement simple pour accélérer la prise de décision et la mise en place.
+          </p>
+          <div class="steps">
+            <div class="step">
+              <div>
+                <b>Vous nous contactez</b>
+                <p style="color:var(--muted);">Vous décrivez votre besoin, votre volume estimé et le type d’expéditions concerné.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div>
+                <b>Nous organisons la collecte</b>
+                <p style="color:var(--muted);">Colixo met en place une solution claire, rapide et adaptée à votre activité.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div>
+                <b>Vos colis sont pris en charge</b>
+                <p style="color:var(--muted);">Vous gagnez du temps et gardez une logistique plus fluide au quotidien.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band">
+      <div class="container">
+        <div class="cta-box">
+          <div>
+            <h2 style="font-size:clamp(1.8rem,3vw,3rem); letter-spacing:-0.03em; margin-bottom:10px;">Transformez vos expéditions en avantage concurrentiel</h2>
+            <p style="color:var(--muted); max-width:62ch;">
+              Avec une vidéo intégrée, un message clair et un formulaire visible, cette page est pensée pour convertir les visiteurs en prospects qualifiés.
+            </p>
+            <div class="badge-row">
+              <span>Service local</span>
+              <span>Approche premium</span>
+              <span>Formulaire prêt à l’emploi</span>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:center; align-items:center;">
+            <a href="#contact" class="btn btn-primary" style="padding:16px 26px;">Recevoir mon devis</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <h2 class="section-title">Demande de devis</h2>
+        <p class="section-subtitle">
+          Remplissez le formulaire ci-dessous pour être recontacté. Cette version fonctionne sur GitHub Pages avec un service gratuit de réception d’e-mails.
+        </p>
+
+        <div class="form-wrap">
+          <div class="info-panel">
+            <h3 style="font-size:1.55rem; margin-bottom:10px;">Une page pensée pour convertir</h3>
+            <p style="color:var(--muted);">
+              Cette landing page utilise une structure simple et efficace : vidéo, proposition de valeur forte, bénéfices clairs et formulaire visible.
+            </p>
+
+            <div class="contact-list">
+              <div class="contact-item">
+                <strong style="display:block; color:#fff; margin-bottom:4px;">Étape 1</strong>
+                Remplacez l’adresse e-mail dans le formulaire par votre vraie adresse de réception.
+              </div>
+              <div class="contact-item">
+                <strong style="display:block; color:#fff; margin-bottom:4px;">Étape 2</strong>
+                Placez votre vidéo dans le même dossier que ce fichier avec le nom <code style="color:#fff;">video-colixo.mp4</code>.
+              </div>
+              <div class="contact-item">
+                <strong style="display:block; color:#fff; margin-bottom:4px;">Étape 3</strong>
+                Hébergez le tout sur GitHub Pages et commencez à envoyer le lien à vos prospects.
+              </div>
+            </div>
+
+            <div class="mini-proof">
+              <div class="card">
+                <strong>9:16</strong>
+                <span style="color:var(--muted);">Vidéo verticale intégrée</span>
+              </div>
+              <div class="card">
+                <strong>GitHub</strong>
+                <span style="color:var(--muted);">Compatible site statique</span>
+              </div>
+              <div class="card">
+                <strong>Formulaire</strong>
+                <span style="color:var(--muted);">Réception simple par e-mail</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-panel">
+            <form action="https://formsubmit.co/info@colixo.ch" method="POST">
+              <input type="hidden" name="_subject" value="Nouvelle demande de devis — Colixo" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_next" value="https://example.com/merci.html" />
+
+              <div class="field-row">
+                <div>
+                  <label for="name">Nom</label>
+                  <input id="name" name="Nom" type="text" placeholder="Votre nom" required />
+                </div>
+                <div>
+                  <label for="company">Entreprise</label>
+                  <input id="company" name="Entreprise" type="text" placeholder="Nom de l’entreprise" required />
+                </div>
+              </div>
+
+              <div class="field-row">
+                <div>
+                  <label for="email">Email</label>
+                  <input id="email" name="Email" type="email" placeholder="nom@entreprise.ch" required />
+                </div>
+                <div>
+                  <label for="phone">Téléphone</label>
+                  <input id="phone" name="Téléphone" type="tel" placeholder="079 000 00 00" />
+                </div>
+              </div>
+
+              <div>
+                <label for="need">Type de besoin</label>
+                <select id="need" name="Type de besoin">
+                  <option>Collecte régulière</option>
+                  <option>Livraisons ponctuelles</option>
+                  <option>Livraison express</option>
+                  <option>Je souhaite être rappelé</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="message">Votre besoin</label>
+                <textarea id="message" name="Message" placeholder="Décrivez votre activité, le volume approximatif, la fréquence et vos attentes."></textarea>
+              </div>
+
+              <button class="btn btn-primary" type="submit" style="width:100%;">Envoyer ma demande</button>
+              <p class="form-note">
+                Remplacez <strong>info@colixo.ch</strong> par votre vraie adresse de réception dans l’attribut <code>action</code> du formulaire.
+                Remplacez aussi l’URL <code>https://example.com/merci.html</code> par une vraie page de remerciement si besoin.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div>© 2026 Colixo — Livraison simple, rapide, efficace.</div>
+      <div>
+        <a href="#top">Retour en haut</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
